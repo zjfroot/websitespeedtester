@@ -2,12 +2,18 @@ var page = require('webpage').create(),
   system = require('system'),
   t, address;
 
-page.settings.resourceTimeout = 3000;
-
 if (system.args.length === 1) {
-  console.log('Usage: loadspeed.js <some URL>');
+  console.log('Usage: loadspeed.js <some URL> <timeout in msec>');
   phantom.exit();
 }
+
+var timeout;
+
+if (system.args.length === 2) {
+  timeout = 10000
+}
+
+page.settings.resourceTimeout = system.args[2];
 
 page.onResourceTimeout = function(e) {
   console.log(e.errorCode);   // it'll probably be 408 
